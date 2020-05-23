@@ -1,0 +1,3 @@
+BGR - The color pallate in RGB: R and B are swapped. So red appears blue and vice versa.
+HSV - Hue Saturation Value. values if  for lightness. so the more blue in rgb. more light in hsv
+HSL - Hue Saturation Lightness. R value is used to select a hue from the color wheel. G values to saturation
