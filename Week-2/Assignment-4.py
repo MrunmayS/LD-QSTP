@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np 
 
-imgpath = 'Week-2\img.PNG'
+imgpath = 'E:\LD-QSTP\Week-2\img.PNG'
 img =  cv2.imread(imgpath)
 img_og = img.copy()
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
