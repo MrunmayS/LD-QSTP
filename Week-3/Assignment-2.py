@@ -13,7 +13,7 @@ circles_int = np.array(circles, dtype='int')
 print('No. of circles:',circles_int.shape[1])
 print(circles_int)
 centres = circles_int[:1,:,:-1]
-centres = centres.reshape((2,2))
+centres = centres.reshape((2,circles_int.shape[1]))
 print(centres)
 cv2.line(img_og, tuple(centres[0]),tuple(centres[1]),(0,255,0),5)
 count = 0 
