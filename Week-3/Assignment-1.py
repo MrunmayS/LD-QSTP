@@ -23,33 +23,69 @@ def plot_colors(hist, centroids):
 		startX = endX
 	return bar
 
+def pie_chart(hist, centroids):
+	
+	sizes  = list()
+	explode = (0.01, 0.01, 0.01, 0.01, 0.01)
+	colors = list()
+	cnt = 0 
+	a = np.array([1])
+	for (percent, color) in zip(hist, centroids):
+		sizes.append((percent * 360))
+		r,g,b = color
+		r = r/255
+		b = b/255
+		g = g/255
+		color = np.array([r,g,b])
+		if cnt == 0:
+			colors = np.hstack((color,a))
+		cnt = cnt + 1
+		color1 = np.hstack((color,a))
+		colors = np.vstack((colors,color1))
+		#colors = np.hstack((colors,a))
+	
+	pie = plt.pie(sizes, explode = explode, colors = colors)
+	#color_array = np.array(colors)
+	#print(colors)
+
+
 img = cv2.imread("E:\LD-QSTP\Week-3\img_01.png")
+#print(img)
 h,w,l = img.shape
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+# For percent
+img1 = img.reshape((h*w,l))
+clt1 = KMeans(n_clusters= 5)
+clt1.fit(img1)
+hist = find_hist(clt1)
+#img_rgba = cv2.cvtColor(img, cv2.COLOR_RGB2RGBA)
+#print(img_rgba.shape)
+bar = plot_colors(hist,clt1.cluster_centers_)
+#pie_c = pie_chart(hist, clt1.cluster_centers_)
 
-img = img.reshape((h*w,l))
 
-clt = KMeans(n_clusters= 5)
-clt.fit(img)
-hist = find_hist(clt)
-bar = plot_colors(hist,clt.cluster_centers_)
-img = img.reshape((h,w,l))
-img1 = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+# For Quant
 
-img1 = img1.reshape((h*w,l))
-labels = clt.fit_predict(img1)
-quant = clt.cluster_centers_.astype("uint8")[labels]
+img2 = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+img2 = img2.reshape((h*w,l))
+clt2 = KMeans(n_clusters=5)
+labels = clt2.fit_predict(img2)
+quant = clt2.cluster_centers_.astype("uint8")[labels]
 
-img = img.reshape((h,w,l))
+#img = img.reshape((h,w,l))
 quant = quant.reshape((h,w,l))
-img = cv2.cvtColor(img, cv2.COLOR_LAB2RGB)
+#img = cv2.cvtColor(img, cv2.COLOR_LAB2RGB)
 quant = cv2.cvtColor(quant, cv2.COLOR_LAB2RGB)
-plt.axis("off")
-plt.subplot(121)
-plt.imshow(quant)
 
-plt.subplot(122)
+plt.axis("off")
+#plt.subplot(121)
+plt.imshow(quant)
+plt.show()
+#plt.subplot(122)
 plt.axis("off")
 plt.imshow(bar)
 plt.show()
 
+plt.axis("off")
+pie_chart(hist, clt1.cluster_centers_)
+plt.show()
